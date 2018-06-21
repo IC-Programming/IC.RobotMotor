@@ -166,7 +166,7 @@ namespace IC
 	void RobotMotor::SetSpeed(int side, int speed)
 	{
 		if (pwm == 2)
-		//{
+			//{
 			if (side == Left)
 			{
 				speeds[0] = speed;
@@ -175,8 +175,7 @@ namespace IC
 			{
 				speeds[1] = speed;
 			}
-			analogWrite(leftpins[2], speeds[0]);
-			analogWrite(rightpins[2], speeds[1]);
-		}
+		analogWrite(leftpins[2], speeds[0]);
+		analogWrite(rightpins[2], speeds[1]);
 	}
 }
