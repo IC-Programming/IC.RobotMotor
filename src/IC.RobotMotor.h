@@ -30,7 +30,6 @@
 #define IC_ROBOTMOTOR_H_
 
 #include <Arduino.h>
-//#include <..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino\Arduino.h> //I Use On Debug
 #define Forward     1
 #define Left        2
 #define Right       3
