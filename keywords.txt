@@ -2,7 +2,7 @@
 IC	KEYWORD1
 RobotMotor	KEYWORD1
 Go	KEYWORD2
-toForward	KEYWORD2
+forward	KEYWORD2
 left	KEYWORD2
 right	KEYWORD2
 backword	KEYWORD2
