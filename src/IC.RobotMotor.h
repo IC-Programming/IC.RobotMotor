@@ -30,6 +30,7 @@
 #define IC_ROBOTMOTOR_H_
 
 #include <Arduino.h>
+//#include <..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino\Arduino.h> //I Use On Debug
 #define Forward     1
 #define Left        2
 #define Right       3
@@ -63,6 +64,8 @@ namespace IC
 		void stop();
 		void SetSpeed(int speed);
 		void SetSpeed(int side, int speed);
+		void StraightTurn(int side, int chang);
+		void SpeedTurn(int side, int chang);
 	};
 };
 #endif
