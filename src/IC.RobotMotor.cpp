@@ -74,6 +74,11 @@ namespace IC
 	}
 	void RobotMotor::Go(int how)
 	{
+		if (pwm == 2)
+		{
+			analogWrite(leftpins[2], speeds[0]);
+			analogWrite(rightpins[2], speeds[1]);
+		}
 		if (how == Stop)
 		{
 			stop();
@@ -177,6 +182,36 @@ namespace IC
 			}
 			analogWrite(leftpins[2], speeds[0]);
 			analogWrite(rightpins[2], speeds[1]);
+		}
+	}
+	void RobotMotor::StraightTurn(int side, int chang)
+	{
+		if (pwm != 2)
+			return;
+		if (side == Left)
+		{
+			analogWrite(leftpins[2], speeds[0] - chang);
+			analogWrite(rightpins[2], speeds[1]);
+		}
+		else if (side == Right)
+		{
+			analogWrite(leftpins[2], speeds[0]);
+			analogWrite(rightpins[2], speeds[1] - chang);
+		}
+	}
+	void RobotMotor::SpeedTurn(int side, int chang)
+	{
+		if (pwm != 2)
+			return;
+		if (side == Left)
+		{
+			analogWrite(leftpins[2], speeds[0] - chang);
+			analogWrite(rightpins[2], speeds[1] + chang);
+		}
+		else if (side == Right)
+		{
+			analogWrite(leftpins[2], speeds[0] + chang);
+			analogWrite(rightpins[2], speeds[1] - chang);
 		}
 	}
 }
