@@ -80,35 +80,33 @@ namespace IC
 			analogWrite(rightpins[2], speeds[1]);
 		}
 		if (how == Stop)
-		{
 			stop();
-		}
 		else if (how == Forward)
-		{
 			forward();
-		}
 		else if (how == Left)
-		{
 			left();
-		}
 		else if (how == Right)
-		{
 			right();
-		}
 		else if (how == Backword)
-		{
 			backword();
-		}
 		else if (how == Left90)
-		{
 			left90();
-		}
 		else if (how == Right90)
-		{
 			right90();
-		}
 	}
-
+	void RobotMotor::Go(int how, int speed)
+	{
+		if (pwm == 2)
+		{
+			analogWrite(leftpins[2], speed);
+			analogWrite(rightpins[2], speed);
+			pwm = 1;
+			Go(how);
+			pwm = 2;
+		}
+		else
+			Go(how);
+	}
 	void RobotMotor::forward()
 	{
 		digitalWrite(leftpins[1], 0);
@@ -186,32 +184,72 @@ namespace IC
 	}
 	void RobotMotor::StraightTurn(int side, int chang)
 	{
-		if (pwm != 2)
-			return;
-		if (side == Left)
-		{
-			analogWrite(leftpins[2], speeds[0] - chang);
-			analogWrite(rightpins[2], speeds[1]);
-		}
-		else if (side == Right)
-		{
-			analogWrite(leftpins[2], speeds[0]);
-			analogWrite(rightpins[2], speeds[1] - chang);
-		}
+		if (pwm == 2)
+			if (side == Left)
+			{
+				analogWrite(leftpins[2], f1(speeds[0] - chang <= 0, 0, speeds[0] - chang));
+				analogWrite(rightpins[2], speeds[1]);
+				forward();
+			}
+			else if (side == Right)
+			{
+				analogWrite(leftpins[2], speeds[0]);
+				analogWrite(rightpins[2], f1(speeds[1] - chang <= 0, 0, speeds[1] - chang));
+				forward();
+			}
+	}
+	int RobotMotor::f1(uint8_t seg, int v1, int v2)
+	{
+		if (seg != 0)
+			return v1;
+		else
+			return v2;
 	}
 	void RobotMotor::SpeedTurn(int side, int chang)
 	{
-		if (pwm != 2)
-			return;
+		if (pwm == 2)
+			if (side == Left)
+			{
+				analogWrite(leftpins[2], f1(speeds[0] - chang <= 0, 0, speeds[0] - chang));
+				analogWrite(rightpins[2], f1(speeds[1] + chang >= 255, 255, speeds[1] + chang));
+				forward();
+			}
+			else if (side == Right)
+			{
+				analogWrite(leftpins[2], f1(speeds[0] + chang >= 255, 255, speeds[0] + chang));
+				analogWrite(rightpins[2], f1(speeds[1] - chang <= 0, 0, speeds[1] - chang));
+				forward();
+			}
+	}
+	void RobotMotor::StraightTurn(int side, int chang, int speed)
+	{
+		if (pwm == 2)
+			if (side == Left)
+			{
+				analogWrite(leftpins[2], f1(speed - chang <= 0, 0, speed - chang));
+				analogWrite(rightpins[2], speed);
+				forward();
+			}
+			else if (side == Right)
+			{
+				analogWrite(leftpins[2], speed);
+				analogWrite(rightpins[2], f1(speed - chang <= 0, 0, speed - chang));
+				forward();
+			}
+	}
+	void RobotMotor::StopTurn(int side)
+	{
 		if (side == Left)
-		{
-			analogWrite(leftpins[2], speeds[0] - chang);
-			analogWrite(rightpins[2], speeds[1] + chang);
-		}
+			left();
 		else if (side == Right)
-		{
-			analogWrite(leftpins[2], speeds[0] + chang);
-			analogWrite(rightpins[2], speeds[1] - chang);
-		}
+			right();
+	}
+	int RobotMotor::GetSpeed(int side)
+	{
+		if (side == Left)
+			return speeds[0];
+		else if (side == Right)
+			return speeds[1];
+		return -1;
 	}
 }
