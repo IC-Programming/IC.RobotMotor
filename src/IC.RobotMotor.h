@@ -30,7 +30,6 @@
 #define IC_ROBOTMOTOR_H_
 
 #include <Arduino.h>
-//#include <..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino\Arduino.h> //I Use On Debug
 #define Forward     1
 #define Left        2
 #define Right       3
@@ -50,11 +49,13 @@ namespace IC
 		int* leftpins;
 		int* rightpins;
 		int* speeds;
+		int f1(uint8_t seg, int v1, int v2);
 	public:
 		RobotMotor(int left1, int left2, int right1, int right2);
 		RobotMotor(int leften, int left1, int left2, int righten, int right1, int right2);
 		void begin();
 		void Go(int how);
+		void Go(int how, int speed);
 		void forward();
 		void left();
 		void right();
@@ -65,7 +66,10 @@ namespace IC
 		void SetSpeed(int speed);
 		void SetSpeed(int side, int speed);
 		void StraightTurn(int side, int chang);
+		void StraightTurn(int side, int chang, int speed);
 		void SpeedTurn(int side, int chang);
+		void StopTurn(int side);
+		int GetSpeed(int side);
 	};
 };
 #endif
